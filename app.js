@@ -71,4 +71,26 @@ app.patch('/api/v1/tours/:id', (req, res) => {
 		});
 	}
 });
+
+app.delete('/api/v1/tours/:id', (req, res) => {
+	const id = Number(req.params.id);
+	const tour = tours.find((el) => el.id === id);
+	if (tour) {
+		fs.writeFile(
+			`${__dirname}/dev-data/data/tours-simple.json`,
+			JSON.stringify(tours.filter((el) => el.id !== id)),
+			(err) => {
+				res.status(204).json({
+					status: 'success',
+					data: null,
+				});
+			},
+		);
+	} else {
+		res.status(404).json({
+			status: 'fail',
+			message: 'No tour found',
+		});
+	}
+});
 app.listen(3000, () => console.log(`Server is listening on port ${port}`));
