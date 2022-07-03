@@ -35,4 +35,23 @@ app.post('/api/v1/tours', (req, res) => {
 	});
 });
 
+//  if you want to make a param optional you can add "?"
+//  example : /api/v1/tours/:id/:user?
+app.get('/api/v1/tours/:id', (req, res) => {
+	// console.log(req.params);
+	const id = Number(req.params.id);
+	const tour = tours.find((el) => el.id === id);
+	if (tour) {
+		res.status(200).json({
+			status: 'success',
+			data: { tour },
+		});
+	} else {
+		res.status(404).json({
+			status: 'fail',
+			message: 'No tour found',
+		});
+	}
+});
+
 app.listen(3000, () => console.log(`Server is listening on port ${port}`));
