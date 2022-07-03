@@ -54,4 +54,21 @@ app.get('/api/v1/tours/:id', (req, res) => {
 	}
 });
 
+// put = except that we receive the entire new updated object
+// patch = except that we receive only properties that should be updated
+app.patch('/api/v1/tours/:id', (req, res) => {
+	const id = Number(req.params.id);
+	const tour = tours.find((el) => el.id === id);
+	if (tour) {
+		res.status(200).json({
+			status: 'success',
+			data: { tour: '<updated tour here>' },
+		});
+	} else {
+		res.status(404).json({
+			status: 'fail',
+			message: 'No tour found',
+		});
+	}
+});
 app.listen(3000, () => console.log(`Server is listening on port ${port}`));
