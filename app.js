@@ -11,6 +11,11 @@ app.use((req, res, next) => {
 	next();
 });
 
+app.use((req, res, next) => {
+	req.requestTime = new Date().toISOString();
+	next();
+});
+
 // top-level code is executed only one time.
 // so it will not block the event-loop
 const tours = JSON.parse(fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`));
@@ -18,6 +23,7 @@ const tours = JSON.parse(fs.readFileSync(`${__dirname}/dev-data/data/tours-simpl
 // Actions
 const getAllTours = (req, res) => {
 	res.status(200).json({
+		requestAt: req.requestTime,
 		status: 'success',
 		results: tours.length,
 		data: { tours },
