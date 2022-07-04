@@ -7,7 +7,7 @@ const tourRouter = require('./routes/tourRoutes');
 const userRouter = require('./routes/userRoutes');
 
 // middleware
-app.use(morgan('dev'));
+// app.use(morgan('dev'));
 app.use(express.json());
 
 app.use((req, res, next) => {

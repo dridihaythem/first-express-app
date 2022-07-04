@@ -31,51 +31,42 @@ exports.getTour = (req, res) => {
 	// console.log(req.params);
 	const id = Number(req.params.id);
 	const tour = tours.find((el) => el.id === id);
-	if (tour) {
-		res.status(200).json({
-			status: 'success',
-			data: { tour },
-		});
-	} else {
-		res.status(404).json({
-			status: 'fail',
-			message: 'No tour found',
-		});
-	}
+	res.status(200).json({
+		status: 'success',
+		data: { tour },
+	});
 };
 exports.updateTour = (req, res) => {
 	const id = Number(req.params.id);
 	const tour = tours.find((el) => el.id === id);
-	if (tour) {
-		res.status(200).json({
-			status: 'success',
-			data: { tour: '<updated tour here>' },
-		});
-	} else {
-		res.status(404).json({
-			status: 'fail',
-			message: 'No tour found',
-		});
-	}
+	res.status(200).json({
+		status: 'success',
+		data: { tour: '<updated tour here>' },
+	});
 };
 exports.deleteTour = (req, res) => {
 	const id = Number(req.params.id);
 	const tour = tours.find((el) => el.id === id);
-	if (tour) {
-		fs.writeFile(
-			`${__dirname}/dev-data/data/tours-simple.json`,
-			JSON.stringify(tours.filter((el) => el.id !== id)),
-			(err) => {
-				res.status(204).json({
-					status: 'success',
-					data: null,
-				});
-			},
-		);
-	} else {
-		res.status(404).json({
+	fs.writeFile(
+		`${__dirname}/dev-data/data/tours-simple.json`,
+		JSON.stringify(tours.filter((el) => el.id !== id)),
+		(err) => {
+			res.status(204).json({
+				status: 'success',
+				data: null,
+			});
+		},
+	);
+};
+
+exports.checkID = (req, res, next, val) => {
+	const id = Number(req.params.id);
+	const tour = tours.find((el) => el.id === id);
+	if (!tour) {
+		return res.status(404).json({
 			status: 'fail',
 			message: 'No tour found',
 		});
 	}
+	next();
 };
