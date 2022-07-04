@@ -10,15 +10,16 @@ app.use(express.json());
 // so it will not block the event-loop
 const tours = JSON.parse(fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`));
 
-app.get('/api/v1/tours', (req, res) => {
+// Actions
+const getAllTours = (req, res) => {
 	res.status(200).json({
 		status: 'success',
 		results: tours.length,
 		data: { tours },
 	});
-});
+};
 
-app.post('/api/v1/tours', (req, res) => {
+const createTour = (req, res) => {
 	// console.log(req.body);
 	const newId = tours[tours.length - 1].id + 1;
 	const newTour = { id: newId, ...req.body };
@@ -33,11 +34,8 @@ app.post('/api/v1/tours', (req, res) => {
 			data: { tour: newTour },
 		});
 	});
-});
-
-//  if you want to make a param optional you can add "?"
-//  example : /api/v1/tours/:id/:user?
-app.get('/api/v1/tours/:id', (req, res) => {
+};
+const getTour = (req, res) => {
 	// console.log(req.params);
 	const id = Number(req.params.id);
 	const tour = tours.find((el) => el.id === id);
@@ -52,11 +50,8 @@ app.get('/api/v1/tours/:id', (req, res) => {
 			message: 'No tour found',
 		});
 	}
-});
-
-// put = except that we receive the entire new updated object
-// patch = except that we receive only properties that should be updated
-app.patch('/api/v1/tours/:id', (req, res) => {
+};
+const updateTour = (req, res) => {
 	const id = Number(req.params.id);
 	const tour = tours.find((el) => el.id === id);
 	if (tour) {
@@ -70,9 +65,8 @@ app.patch('/api/v1/tours/:id', (req, res) => {
 			message: 'No tour found',
 		});
 	}
-});
-
-app.delete('/api/v1/tours/:id', (req, res) => {
+};
+const deleteTour = (req, res) => {
 	const id = Number(req.params.id);
 	const tour = tours.find((el) => el.id === id);
 	if (tour) {
@@ -92,5 +86,20 @@ app.delete('/api/v1/tours/:id', (req, res) => {
 			message: 'No tour found',
 		});
 	}
-});
+};
+
+// app.get('/api/v1/tours', getAllTours);
+// app.post('/api/v1/tours', createTour);
+//  if you want to make a param optional you can add "?"
+//  example : /api/v1/tours/:id/:user?
+// app.get('/api/v1/tours/:id', getTour);
+
+// put = except that we receive the entire new updated object
+// patch = except that we receive only properties that should be updated
+// app.patch('/api/v1/tours/:id', updateTour);
+app.delete('/api/v1/tours/:id', deleteTour);
+
+app.route('/api/v1/tours').get(getAllTours).post(createTour);
+app.route('/api/v1/tours/:id').get(getTour).patch(deleteTour).delete(deleteTour);
+
 app.listen(3000, () => console.log(`Server is listening on port ${port}`));
