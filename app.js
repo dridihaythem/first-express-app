@@ -6,6 +6,11 @@ const port = 3000;
 // middleware
 app.use(express.json());
 
+app.use((req, res, next) => {
+	console.log('👋 hello from middleware');
+	next();
+});
+
 // top-level code is executed only one time.
 // so it will not block the event-loop
 const tours = JSON.parse(fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`));
