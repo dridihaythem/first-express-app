@@ -101,6 +101,37 @@ const deleteTour = (req, res) => {
 	}
 };
 
+const getAllUsers = (req, res) => {
+	res.status(500).json({
+		status: 'error',
+		message: 'this route is not yet defined!',
+	});
+};
+const createUser = (req, res) => {
+	res.status(500).json({
+		status: 'error',
+		message: 'this route is not yet defined!',
+	});
+};
+const getUser = (req, res) => {
+	res.status(500).json({
+		status: 'error',
+		message: 'this route is not yet defined!',
+	});
+};
+const updateUser = (req, res) => {
+	res.status(500).json({
+		status: 'error',
+		message: 'this route is not yet defined!',
+	});
+};
+const deleteUser = (req, res) => {
+	res.status(500).json({
+		status: 'error',
+		message: 'this route is not yet defined!',
+	});
+};
+
 // app.get('/api/v1/tours', getAllTours);
 // app.post('/api/v1/tours', createTour);
 //  if you want to make a param optional you can add "?"
@@ -110,9 +141,12 @@ const deleteTour = (req, res) => {
 // put = except that we receive the entire new updated object
 // patch = except that we receive only properties that should be updated
 // app.patch('/api/v1/tours/:id', updateTour);
-app.delete('/api/v1/tours/:id', deleteTour);
+//app.delete('/api/v1/tours/:id', deleteTour);
 
 app.route('/api/v1/tours').get(getAllTours).post(createTour);
 app.route('/api/v1/tours/:id').get(getTour).patch(deleteTour).delete(deleteTour);
+
+app.route('/api/v1/users').get(getAllUsers).post(createUser);
+app.route('/api/v1/users/:id').get(getUser).patch(updateUser).delete(deleteUser);
 
 app.listen(3000, () => console.log(`Server is listening on port ${port}`));
