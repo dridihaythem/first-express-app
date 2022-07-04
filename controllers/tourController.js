@@ -1,4 +1,5 @@
 const fs = require('fs');
+const Tour = require('./../models/tourModel');
 
 const tours = JSON.parse(fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`));
 
@@ -11,21 +12,19 @@ exports.getAllTours = (req, res) => {
 	});
 };
 
-exports.createTour = (req, res) => {
-	// console.log(req.body);
-	const newId = tours[tours.length - 1].id + 1;
-	const newTour = { id: newId, ...req.body };
-	// console.log(newTour);
-	tours.push(newTour);
-	// we are inside of a call-back function that is gonna run in the event loop
-	// so we can't never block the event loop
-	// we must use writeFile and not writeFileSync
-	fs.writeFile(`${__dirname}/dev-data/data/tours-simple.json`, JSON.stringify(tours), (err) => {
+exports.createTour = async (req, res) => {
+	try {
+		const newTour = await Tour.create(req.body);
 		res.status(201).send({
 			status: 'success',
 			data: { tour: newTour },
 		});
-	});
+	} catch (e) {
+		res.status(400).send({
+			status: 'fail',
+			message: 'invalid data sent!',
+		});
+	}
 };
 exports.getTour = (req, res) => {
 	// console.log(req.params);
@@ -57,26 +56,4 @@ exports.deleteTour = (req, res) => {
 			});
 		},
 	);
-};
-
-exports.checkID = (req, res, next, val) => {
-	const id = Number(req.params.id);
-	const tour = tours.find((el) => el.id === id);
-	if (!tour) {
-		return res.status(404).json({
-			status: 'fail',
-			message: 'No tour found',
-		});
-	}
-	next();
-};
-
-exports.checkBody = (req, res, next) => {
-	if (!req.body.name || !req.body.price) {
-		return res.status(400).json({
-			status: 'fail',
-			message: 'Missing name or price',
-		});
-	}
-	next();
 };
