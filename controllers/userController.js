@@ -24,9 +24,19 @@ exports.createUser = async (req, res) => {
 		res.status(500).json({ status: 'fail', message: e });
 	}
 };
-exports.updateUser = (req, res) => {
-	res.send('update user');
+exports.updateUser = async (req, res) => {
+	try {
+		const user = await User.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
+		res.status(200).json({ status: 'success', data: { user } });
+	} catch (e) {
+		res.status(500).json({ status: 'fail', message: e });
+	}
 };
-exports.deleteUser = (req, res) => {
-	res.send('delete user');
+exports.deleteUser = async (req, res) => {
+	try {
+		await User.findByIdAndDelete(req.params.id);
+		res.status(200).json({ status: 'success', data: null });
+	} catch (e) {
+		res.status(500).json({ status: 'fail', message: e });
+	}
 };
