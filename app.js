@@ -7,7 +7,11 @@ const tourRouter = require('./routes/tourRoutes');
 const userRouter = require('./routes/userRoutes');
 
 // middleware
-// app.use(morgan('dev'));
+if (process.env.NODE_ENV === 'development') {
+	app.use(morgan('dev'));
+}
+console.log(process.env.NODE_ENV);
+
 app.use(express.json());
 app.use(express.static(`${__dirname}/public`));
 
