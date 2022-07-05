@@ -12,6 +12,13 @@ class APIFeatures {
 		}
 		return this;
 	}
+	sort() {
+		if (this.queryString.sort) {
+			const sort = this.queryString.sort.split(',').join(' ');
+			this.query = this.query.sort(sort);
+		}
+		return this;
+	}
 }
 
 module.exports = APIFeatures;

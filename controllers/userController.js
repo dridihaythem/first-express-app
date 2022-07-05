@@ -3,7 +3,7 @@ const APIFeatures = require('./../utils/APIFeatures');
 
 exports.getAllUsers = async (req, res) => {
 	try {
-		const features = new APIFeatures(User.find(), req.query).limitfields();
+		const features = new APIFeatures(User.find(), req.query).limitfields().sort();
 		const users = await features.query;
 		res.status(200).send({ status: 'success', results: users.length, data: { users } });
 	} catch (e) {
