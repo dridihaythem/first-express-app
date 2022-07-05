@@ -11,6 +11,10 @@ const userSchema = mongoose.Schema({
 		type: Number,
 		required: true,
 	},
+	country: {
+		type: String,
+	},
+	hobbies: [String],
 });
 
 const User = mongoose.model('User', userSchema);
