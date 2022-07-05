@@ -9,7 +9,7 @@ exports.getUser = async (req, res) => {
 		const user = await User.findById(req.params.id);
 		res.status(201).send({ status: 'success', data: { user } });
 	} catch (e) {
-		res.status(201).send({ status: 'fail', message: e.message });
+		res.status(500).send({ status: 'fail', message: e.message });
 	}
 };
 
@@ -18,7 +18,7 @@ exports.createUser = async (req, res) => {
 		const user = await User.create(req.body);
 		res.status(201).send({ status: 'success', data: { user: user } });
 	} catch (e) {
-		res.status(201).send({ status: 'fail', message: e.message });
+		res.status(500).send({ status: 'fail', message: e.message });
 	}
 };
 
@@ -31,6 +31,6 @@ exports.deleteUser = async (req, res) => {
 		const user = await User.findByIdAndDelete(req.params.id);
 		res.status(201).send({ status: 'success', data: null });
 	} catch (e) {
-		res.status(201).send({ status: 'fail', message: e.message });
+		res.status(500).send({ status: 'fail', message: e.message });
 	}
 };
