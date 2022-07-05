@@ -1,7 +1,12 @@
 const User = require('./../models/userModel');
 
-exports.getAllUsers = (req, res) => {
-	res.status(200).send({ status: 'success', data: [] });
+exports.getAllUsers = async (req, res) => {
+	try {
+		const users = await User.find();
+		res.status(200).send({ status: 'success', results: users.length, data: { users } });
+	} catch (e) {
+		res.status(500).send({ status: 'fail', message: e.message });
+	}
 };
 
 exports.getUser = async (req, res) => {

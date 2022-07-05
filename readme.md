@@ -6,6 +6,10 @@ BODY :
 
 {"name" : "haythem","age" : 23,"country" : "tunisia","gender" : "male"}
 
+## GET USERS :
+
+GET : http://127.0.0.1:3000/api/v1/users
+
 ## GET USER :
 
 GET : http://127.0.0.1:3000/api/v1/users/:id
