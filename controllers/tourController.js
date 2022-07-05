@@ -33,7 +33,8 @@ exports.getAllTours = async (req, res) => {
 			query = query.sort(sortBy);
 		} else {
 			// default sort
-			query = query.sort('-createdAt');
+			//According to documentation at Mongo when using $skip with $sort it is advised to include _id or another unique identifier as any duplicates can cause errors
+			query = query.sort('-createdAt _id');
 		}
 
 		// 4) Filed limit
@@ -44,6 +45,17 @@ exports.getAllTours = async (req, res) => {
 			query = query.select('-__v');
 		}
 
+		// 5) pagination
+		const page = Number(req.query.page) || 1;
+		const limit = Number(req.query.limit) || 100;
+		const skip = (page - 1) * limit;
+
+		query = query.skip(skip).limit(limit);
+
+		if (req.query.page) {
+			const numTours = await Tour.countDocuments();
+			if (skip >= numTours) throw new Error('This page does not exist');
+		}
 		const tours = await query; // execute query
 
 		res.status(200).json({
