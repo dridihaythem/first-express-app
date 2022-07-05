@@ -1,3 +1,9 @@
+## ABOUT
+
+in part 1, i learned how to create a simple API
+
+in part 2, i learned how to implement sorting , pagination , projecting and filtering
+
 ## CREATE USER :
 
 POST : http://127.0.0.1:3000/api/v1/users
@@ -50,10 +56,10 @@ GET : http://127.0.0.1:3000/api/v1/users?fields=fields1,fields2...
 
 example : http://127.0.0.1:3000/api/v1/users?fields=name,age
 
-## FILTER
+## FILTERING
 
 example : http://127.0.0.1:3000/api/v1/users?age=18
 
-example : 127.0.0.1:3000/api/v1/users?age[gte]=18
+example : http://127.0.0.1:3000/api/v1/users?age[gte]=18
 
-example : 127.0.0.1:3000/api/v1/users?age[lte]=18
+example : http://127.0.0.1:3000/api/v1/users?age[lte]=18
