@@ -4,8 +4,13 @@ exports.getAllUsers = (req, res) => {
 	res.status(200).send({ status: 'success', data: [] });
 };
 
-exports.getUser = (req, res) => {
-	res.status(200).send({ status: 'success', data: [] });
+exports.getUser = async (req, res) => {
+	try {
+		const user = await User.findById(req.params.id);
+		res.status(201).send({ status: 'success', data: { user } });
+	} catch (e) {
+		res.status(201).send({ status: 'fail', message: e.message });
+	}
 };
 
 exports.createUser = async (req, res) => {
