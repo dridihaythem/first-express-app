@@ -5,7 +5,7 @@ const userSchema = mongoose.Schema({
 		type: String,
 		required: [true, 'user must have a name'],
 		minlength: [3, 'name must be at least 3 characters long'],
-		maxlength: 10,
+		maxlength: 30,
 	},
 	age: {
 		type: Number,
