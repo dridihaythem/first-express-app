@@ -26,6 +26,11 @@ exports.updateUser = (req, res) => {
 	res.status(200).send({ status: 'success', data: [] });
 };
 
-exports.deleteUser = (req, res) => {
-	res.status(200).send({ status: 'success', data: [] });
+exports.deleteUser = async (req, res) => {
+	try {
+		const user = await User.findByIdAndDelete(req.params.id);
+		res.status(201).send({ status: 'success', data: null });
+	} catch (e) {
+		res.status(201).send({ status: 'fail', message: e.message });
+	}
 };
