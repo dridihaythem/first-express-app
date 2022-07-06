@@ -46,3 +46,87 @@ exports.deleteUser = async (req, res) => {
 		res.status(500).send({ status: 'fail', message: e.message });
 	}
 };
+
+exports.statsByAge = async (req, res) => {
+	try {
+		const stats = await User.aggregate([
+			{
+				$group: {
+					_id: '$age',
+					users: { $sum: 1 },
+				},
+			},
+			{
+				$addFields: { age: '$_id' },
+			},
+			{
+				$sort: { _id: 1 },
+			},
+			{
+				$project: {
+					_id: 0,
+				},
+			},
+		]);
+
+		res.status(200).send({ status: 'success', stats });
+	} catch (e) {
+		res.status(500).send({ status: 'fail', message: e.message });
+	}
+};
+
+exports.statsByGender = async (req, res) => {
+	try {
+		const stats = await User.aggregate([
+			{
+				$group: {
+					_id: { $toUpper: '$gender' },
+					users: { $sum: 1 },
+					avgAge: { $avg: '$age' },
+					minAge: { $min: '$age' },
+					maxAge: { $max: '$age' },
+				},
+			},
+			{
+				$match: { _id: { $in: ['MALE', 'FEMALE'] } },
+			},
+			{
+				$addFields: { gender: '$_id' },
+			},
+			{
+				$project: {
+					_id: 0,
+				},
+			},
+		]);
+
+		res.status(200).send({ status: 'success', stats });
+	} catch (e) {
+		res.status(500).send({ status: 'fail', message: e.message });
+	}
+};
+
+exports.statsByCountry = async (req, res) => {
+	try {
+		const stats = await User.aggregate([
+			{
+				$group: {
+					_id: { $toUpper: '$country' },
+					users: { $sum: 1 },
+				},
+			},
+			{
+				$addFields: { country: '$_id' },
+			},
+			{
+				$project: {
+					_id: 0,
+				},
+			},
+		]);
+
+		res.status(200).send({ status: 'success', stats });
+	} catch (e) {
+		res.status(500).send({ status: 'fail', message: e.message });
+	}
+};
