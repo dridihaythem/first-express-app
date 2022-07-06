@@ -89,6 +89,12 @@ tourSchema.pre(/^find/, function (next) {
 	next();
 });
 
+tourSchema.pre('aggregate', function (next) {
+	// add begin of array
+	this.pipeline().unshift({ $match: { secretTour: { $ne: true } } });
+	next();
+});
+
 const Tour = mongoose.model('Tour', tourSchema);
 
 tourSchema.virtual('durationWeeks').get(function () {
