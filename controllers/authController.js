@@ -1,3 +1,4 @@
+const { promisify } = require('util');
 const User = require('./../models/userModel');
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/appError');
@@ -35,4 +36,27 @@ exports.login = catchAsync(async (req, res, next) => {
 		status: 'success',
 		data: { token, user },
 	});
+});
+
+exports.protect = catchAsync(async (req, res, next) => {
+	let token;
+	if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+		token = req.headers.authorization.split(' ')[1];
+	}
+
+	if (!token) {
+		return next(new AppError('you are not login', 401));
+	}
+
+	// when we call verify with only 2 args :  it will behave as a synchronous fn
+	// so we use promisify to make it asynchronous
+	const data = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+
+	const user = await User.findById(data.id);
+	if (!user || user.changedPasswordAfter(data.iat)) {
+		return next(new AppError('Invalid token , please login again', 401));
+	}
+
+	req.user = user;
+	next();
 });
