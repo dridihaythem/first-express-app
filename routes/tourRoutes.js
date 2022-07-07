@@ -5,6 +5,11 @@ const router = express.Router();
 
 // router.param('id', tourController.checkID);
 
+//NB: we can the catchAsync function here
+// example :
+// router.route('/').get(catchAsync(tourController.getAllTours))
+//.post(catchAsync(tourController.createTour));
+
 router.route('/top-5-cheap').get(tourController.aliasTopTours, tourController.getAllTours);
 router.route('/tour-stats').get(tourController.getTourStats);
 router.route('/monthly-plan/:year').get(tourController.getMonthlyPlan);
