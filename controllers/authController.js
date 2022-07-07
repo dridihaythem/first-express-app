@@ -2,6 +2,7 @@ const { promisify } = require('util');
 const User = require('./../models/userModel');
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/appError');
+const sendEmail = require('./../utils/email');
 const jwt = require('jsonwebtoken');
 
 const signToken = (id) => {
@@ -80,8 +81,16 @@ exports.forgetPassword = catchAsync(async (req, res, next) => {
 	const resetToken = user.createPasswordResetToken();
 	await user.save({ validateBeforeSave: false });
 
+	const resetUrl = `${req.protocol}://${req.get('host')}/api/v1/users/reset-password/${resetToken}`;
+
+	const message = `Forget your password ? ${resetUrl}`;
+
+	await sendEmail({ email: user.email, subject: 'Reset Password', message });
+
 	res.status(200).send({
 		status: 'success',
-		data: { resetToken, user },
+		message: 'Token sent',
 	});
 });
+
+// resetPassword
