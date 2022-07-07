@@ -30,6 +30,11 @@ const handleCastErrorDB = (err) => {
 	return new AppError(message, 404);
 };
 
+const handleDuplicateFieldsDB = (err) => {
+	const message = `Duplicate field value: ${err.keyValue.name}`;
+	return new AppError(message, 400);
+};
+
 module.exports = (err, req, res, next) => {
 	err.statusCode = err.statusCode || 500;
 	err.status = err.status || 'error';
@@ -40,6 +45,8 @@ module.exports = (err, req, res, next) => {
 		let newError = { ...err };
 		if (err.name == 'CastError') {
 			newError = handleCastErrorDB(newError);
+		} else if (err.code == 11000) {
+			newError = handleDuplicateFieldsDB(newError);
 		}
 		sendErrorProd(newError, res);
 	}
