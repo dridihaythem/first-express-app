@@ -19,4 +19,9 @@ mongoose
 
 // console.log(app.get('env'));
 // console.log(process.env);
-app.listen(3000, () => console.log(`Server is listening on port ${port}`));
+const server = app.listen(3000, () => console.log(`Server is listening on port ${port}`));
+
+process.on('unhandledRejection', (err, req, res) => {
+	console.log('UNHANDLED REJECTION 💥', err.stack);
+	server.close(() => process.exit(1));
+});
