@@ -10,13 +10,17 @@ const signToken = (id) => {
 	return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN });
 };
 
-exports.signup = catchAsync(async (req, res, next) => {
-	const user = await User.create(req.body);
+const createAndSendToken = (user, statusCode, res) => {
 	const token = signToken(user._id);
-	res.status(201).send({
+	res.status(statusCode).send({
 		status: 'success',
 		data: { token, user },
 	});
+};
+
+exports.signup = catchAsync(async (req, res, next) => {
+	const user = await User.create(req.body);
+	createAndSendToken(user, 200, res);
 });
 
 exports.login = catchAsync(async (req, res, next) => {
@@ -32,12 +36,7 @@ exports.login = catchAsync(async (req, res, next) => {
 		return next(new AppError('Incorrect email or password', 401));
 	}
 
-	const token = signToken(user._id);
-
-	res.status(201).send({
-		status: 'success',
-		data: { token, user },
-	});
+	createAndSendToken(user, 200, res);
 });
 
 exports.protect = catchAsync(async (req, res, next) => {
@@ -110,9 +109,19 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
 
 	await user.save(); //use save to run all validators and the save pre middleware
 
-	const token = signToken(user._id);
-	res.status(201).send({
-		status: 'success',
-		data: { token, user },
-	});
+	createAndSendToken(user, 200, res);
+});
+
+exports.updatePassword = catchAsync(async (req, res, next) => {
+	// get the user
+	const user = await User.findById(req.user.id).select('+password');
+	// check if password is correct
+	if (!(await user.correctPassword(req.body.passwordCurrent, user.password))) {
+		return next(new AppError('Your current password is wrong', 401));
+	}
+	user.password = req.body.password;
+	user.passwordConfirm = req.body.passwordConfirm;
+
+	await user.save();
+	createAndSendToken(user, 200, res);
 });
