@@ -43,6 +43,16 @@ const userSchema = mongoose.Schema({
 	passwordChangedAt: Date,
 	passwordResetToken: String,
 	passwordResetExpires: Date,
+	active: {
+		type: Boolean,
+		default: true,
+		select: false,
+	},
+});
+
+// rgx : start with find : findAndDelete findOne findAndUpdate ...
+userSchema.pre(/^find/, function () {
+	this.find({ active: { $ne: false } });
 });
 
 userSchema.pre('save', async function (next) {
