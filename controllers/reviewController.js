@@ -15,7 +15,7 @@ exports.createReview = catchAsync(async (req, res, next) => {
 });
 
 exports.getAllReviews = catchAsync(async (req, res, next) => {
-	const reviews = await Review.find().populate('tour').populate('user');
+	const reviews = await Review.find();
 	res.status(200).json({
 		status: 'success',
 		results: reviews.length,
