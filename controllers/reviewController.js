@@ -2,6 +2,8 @@ const Review = require('./../models/reviewModel');
 const catchAsync = require('../utils/catchAsync');
 
 exports.createReview = catchAsync(async (req, res, next) => {
+	if (!req.body.tour) req.body.tour = req.params.id;
+
 	const review = await Review.create({
 		review: req.body.review,
 		rating: req.body.rating,
