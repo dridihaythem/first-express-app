@@ -24,6 +24,14 @@ this was my first express application 😁
 
 https://documenter.getpostman.com/view/5594301/UzJQoZS7
 
+# Import Data
+
+```
+node import-dev-data --import
+```
+
+📌 please turn off encrypt password middleware in userModel before import users data , (passwords are already encrypted)
+
 # Dependencies
 
 - [express](https://www.npmjs.com/package/express) : Fast, unopinionated, minimalist web framework for node.
