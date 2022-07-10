@@ -4,7 +4,10 @@ const APIFeatures = require('./../utils/APIFeatures');
 
 exports.getAll = (Model) =>
 	catchAsync(async (req, res, next) => {
-		const features = new APIFeatures(Model.find(), req.query).filter().sort().limitFields().paginate();
+		// to allow nested GET reviews on tour (hack)
+		let filter = {};
+		if (req.params.id) filter = { tour: req.params.id };
+		const features = new APIFeatures(Model.find(filter), req.query).filter().sort().limitFields().paginate();
 		const doc = await features.query; // execute query
 
 		res.status(200).json({
