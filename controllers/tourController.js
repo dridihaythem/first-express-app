@@ -3,7 +3,7 @@ const Tour = require('./../models/tourModel');
 const APIFeatures = require('./../utils/APIFeatures');
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/AppError');
-const { deleteOne, updateOne } = require('./handlerfactory');
+const { deleteOne, updateOne, createOne } = require('./handlerfactory');
 
 exports.aliasTopTours = async (req, res, next) => {
 	req.query.limit = '5';
@@ -25,13 +25,7 @@ exports.getAllTours = catchAsync(async (req, res, next) => {
 	});
 });
 
-exports.createTour = catchAsync(async (req, res, next) => {
-	const newTour = await Tour.create(req.body);
-	res.status(201).send({
-		status: 'success',
-		data: { tour: newTour },
-	});
-});
+exports.createTour = createOne(Tour);
 
 exports.getTour = catchAsync(async (req, res, next) => {
 	const tour = await Tour.findById(req.params.id).populate('reviews');
