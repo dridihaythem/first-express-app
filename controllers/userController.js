@@ -3,6 +3,11 @@ const AppError = require('../utils/AppError');
 const catchAsync = require('./../utils/catchAsync');
 const { deleteOne, updateOne, getOne } = require('./handlerfactory');
 
+exports.getMe = (req, res, next) => {
+	req.params.id = req.user.id;
+	next();
+};
+
 exports.updateMe = catchAsync(async (req, res, next) => {
 	if (req.body.password || req.body.correctPassword) {
 		return next(new AppError('this route is not for password updates', 400));
