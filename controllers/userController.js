@@ -1,7 +1,7 @@
 const User = require('../models/userModel');
 const AppError = require('../utils/AppError');
 const catchAsync = require('./../utils/catchAsync');
-const { deleteOne } = require('./handlerfactory');
+const { deleteOne, updateOne } = require('./handlerfactory');
 
 exports.updateMe = catchAsync(async (req, res, next) => {
 	if (req.body.password || req.body.correctPassword) {
@@ -43,10 +43,8 @@ exports.getUser = (req, res) => {
 		message: 'this route is not yet defined!',
 	});
 };
-exports.updateUser = (req, res) => {
-	res.status(500).json({
-		status: 'error',
-		message: 'this route is not yet defined!',
-	});
-};
+
+// FIXME : findByIdAndUpdate will not fire save middlewares
+// do not change password with this
+exports.updateUser = updateOne(User);
 exports.deleteUser = deleteOne(User);
