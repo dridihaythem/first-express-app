@@ -4,6 +4,22 @@ A tour booking application.
 
 this was my first express application 😁
 
+# What i Learned ?
+
+- How Node really works behind the scenes: event loop, blocking vs non-blocking code, streams, modules, etc.
+
+- CRUD operations with MongoDB and Mongoose
+
+- Build a fast and feature-rich RESTful API (includes filters, sorts, pagination,etc ...)
+
+- Advanced authentication and authorization (including password reset)
+
+- Security: encryption, sanitization, rate limiting, etc.
+
+- Deep dive into mongoose (Embedding , referencing , virtual populate, etc... )
+
+- Error handling with Express
+
 # API Documentation :
 
 https://documenter.getpostman.com/view/5594301/UzJQoZS7
