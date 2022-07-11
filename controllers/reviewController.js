@@ -4,6 +4,7 @@ const { deleteOne, updateOne, createOne, getOne, getAll } = require('./handlerfa
 
 exports.setTourUserIds = (req, res, next) => {
 	if (!req.body.tour) req.body.tour = req.params.id;
+	if (!req.body.user) req.body.user = req.user.id;
 	next();
 };
 
