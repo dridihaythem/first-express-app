@@ -151,7 +151,7 @@ tourSchema.pre(/^find/, function (next) {
 
 tourSchema.pre('aggregate', function (next) {
 	// add begin of array
-	this.pipeline().unshift({ $match: { secretTour: { $ne: true } } });
+	// this.pipeline().unshift({ $match: { secretTour: { $ne: true } } });
 	next();
 });
 
