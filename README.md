@@ -1,8 +1,14 @@
 # About
 
-A tour booking application.
+The project is an API built using Node.js, Express, and MongoDB. It allows users to create an account, login, update their password, and request a new password if they forget it. Users can access all tours, filter and sort them, view tours, and their reviews. They can also create new reviews, and access top cheap tours and monthly tours plan. Admins can create new tours and view statistics.
 
 this was my first express application 😁
+
+
+# API Documentation :
+
+https://documenter.getpostman.com/view/5594301/UzJQoZS7
+
 
 # What i Learned ?
 
@@ -19,10 +25,6 @@ this was my first express application 😁
 - Deep dive into mongoose (Embedding , referencing , virtual populate, etc... )
 
 - Error handling with Express
-
-# API Documentation :
-
-https://documenter.getpostman.com/view/5594301/UzJQoZS7
 
 # Import Data
 
