@@ -1,6 +1,8 @@
 # About
-
 The project is an API built using Node.js, Express, and MongoDB. It allows users to create an account, login, update their password, and request a new password if they forget it. Users can access all tours, filter and sort them, view tours, and their reviews. They can also create new reviews, and access top cheap tours and monthly tours plan. Admins can create new tours and view statistics.
+
+For **sorting** and **filtering** tours, the API allows users to **project** and **select which fields they want to return**. Users can **filter** tours using gte,lte operations in MongoDB, and **sort** tours with multiple columns in **ascending** or **descending** ways for each column.
+
 
 this was my first express application 😁
 
